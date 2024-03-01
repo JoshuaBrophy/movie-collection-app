@@ -1,0 +1,13 @@
+.movie-detail {
+    margin: 20px;
+    padding: 20px;
+    border: 2px solid #e50914;
+    background-color: #000;
+    color: #fff;
+    max-width: 400px;
+  }
+  
+  .movie-detail h2 {
+    color: #e50914;
+    margin-bottom: 15px;
+  }

@@ -1,25 +1,42 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import UserForm from './UserForm';
+import MovieCard from './MovieCard';
+import MovieDetail from './MovieDetail';
 import './App.css';
 
-function App() {
+const App = () => {
+  const [user, setUser] = useState({});
+  const [selectedMovie, setSelectedMovie] = useState(null);
+
+  const handleUserSubmit = (userData) => {
+    setUser(userData);
+  };
+
+  const handleMovieClick = (movie) => {
+    setSelectedMovie(movie);
+  };
+
+  const movieList = [
+    { Title: 'Movie 1', Poster: 'url-to-poster-1' },
+    { Title: 'Movie 2', Poster: 'url-to-poster-2' },
+    // Add more movies as needed
+  ];
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app-container">
+      <UserForm onUserSubmit={handleUserSubmit} />
+      
+      {selectedMovie ? (
+        <MovieDetail movie={selectedMovie} />
+      ) : (
+        <div className="movie-list">
+          {movieList.map((movie, index) => (
+            <MovieCard key={index} movie={movie} onMovieClick={handleMovieClick} />
+          ))}
+        </div>
+      )}
     </div>
   );
-}
+};
 
 export default App;

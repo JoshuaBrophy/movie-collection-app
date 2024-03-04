@@ -9,6 +9,7 @@ const App = () => {
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
+  const [activeTab, setActiveTab] = useState('search');
 
   const handleMovieClick = (movie) => {
     setSelectedMovie(movie);
@@ -16,6 +17,11 @@ const App = () => {
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
+  };
+
+  const handleTabChange = (tab) => {
+    setSelectedMovie(null); // Clear selected movie when changing tabs
+    setActiveTab(tab);
   };
 
   useEffect(() => {
@@ -44,23 +50,58 @@ const App = () => {
   }, [searchTerm]);
 
   return (
-    <div className="app-container">
-      <input
-        type="text"
-        placeholder="Search for a movie..."
-        value={searchTerm}
-        onChange={handleSearchChange}
-      />
-      {searchResults.length > 0 ? (
-        <div className="movie-list">
-          {searchResults.map((movie, index) => (
-            <MovieCard key={index} movie={movie} onMovieClick={handleMovieClick} />
-          ))}
+    <div>
+      <nav className="navbar">
+        <div className="nav-logo">Movie App</div>
+        <div className="nav-tabs">
+          <div
+            className={`nav-tab ${activeTab === 'search' ? 'active' : ''}`}
+            onClick={() => handleTabChange('search')}
+          >
+            Search
+          </div>
+          <div
+            className={`nav-tab ${activeTab === 'collection' ? 'active' : ''}`}
+            onClick={() => handleTabChange('collection')}
+          >
+            My Collection
+          </div>
+          <div
+            className={`nav-tab ${activeTab === 'favorites' ? 'active' : ''}`}
+            onClick={() => handleTabChange('favorites')}
+          >
+            Favorites
+          </div>
+          <div
+            className={`nav-tab ${activeTab === 'random' ? 'active' : ''}`}
+            onClick={() => handleTabChange('random')}
+          >
+            Find a Random Film
+          </div>
         </div>
-      ) : (
-        <p>No results found</p>
-      )}
-      {selectedMovie && <MovieDetail movie={selectedMovie} />}
+      </nav>
+      <div className="app-container">
+        {activeTab === 'search' && (
+          <div>
+            <input
+              type="text"
+              placeholder="Search for a movie..."
+              value={searchTerm}
+              onChange={handleSearchChange}
+            />
+            {searchResults.length > 0 ? (
+              <div className="movie-list">
+                {searchResults.map((movie, index) => (
+                  <MovieCard key={index} movie={movie} onMovieClick={handleMovieClick} />
+                ))}
+              </div>
+            ) : (
+              <p>No results found</p>
+            )}
+          </div>
+        )}
+        {selectedMovie && <MovieDetail movie={selectedMovie} />}
+      </div>
     </div>
   );
 };

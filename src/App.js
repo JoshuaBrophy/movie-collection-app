@@ -1,5 +1,3 @@
-// src/App.js
-
 import React, { useState, useEffect } from 'react';
 import MovieCard from './MovieCard';
 import MovieDetail from './MovieDetail';
@@ -20,19 +18,17 @@ const App = () => {
   };
 
   const handleTabChange = (tab) => {
-    setSelectedMovie(null); // Clear selected movie when changing tabs
+    setSelectedMovie(null);
     setActiveTab(tab);
   };
 
   useEffect(() => {
     if (searchTerm.trim() !== '') {
-      // Make an API call or fetch data based on the search term (e.g., from OMDB API)
-      // For simplicity, we'll use a placeholder function here
-      const fetchData = async () => {
+            const fetchData = async () => {
         try {
-          const response = await fetch(`http://www.omdbapi.com/?s=${searchTerm}&apikey=4d5f158f`);
+          const response = await fetch(`http://www.omdbapi.com/?s=${searchTerm}&apikey=4d5f158f&plot=full&type=movie`);
           const data = await response.json();
-
+  
           if (data.Search) {
             setSearchResults(data.Search);
           } else {
@@ -42,7 +38,7 @@ const App = () => {
           console.error('Error fetching data:', error);
         }
       };
-
+  
       fetchData();
     } else {
       setSearchResults([]);
@@ -60,27 +56,13 @@ const App = () => {
           >
             Search
           </div>
-          <div
-            className={`nav-tab ${activeTab === 'collection' ? 'active' : ''}`}
-            onClick={() => handleTabChange('collection')}
-          >
-            My Collection
-          </div>
-          <div
-            className={`nav-tab ${activeTab === 'favorites' ? 'active' : ''}`}
-            onClick={() => handleTabChange('favorites')}
-          >
-            Favorites
-          </div>
-          <div
-            className={`nav-tab ${activeTab === 'random' ? 'active' : ''}`}
-            onClick={() => handleTabChange('random')}
-          >
-            Find a Random Film
-          </div>
+          {/* Add other tabs as needed */}
         </div>
       </nav>
       <div className="app-container">
+        {selectedMovie && (
+          <MovieDetail movie={selectedMovie} />
+        )}
         {activeTab === 'search' && (
           <div>
             <input
@@ -100,7 +82,6 @@ const App = () => {
             )}
           </div>
         )}
-        {selectedMovie && <MovieDetail movie={selectedMovie} />}
       </div>
     </div>
   );

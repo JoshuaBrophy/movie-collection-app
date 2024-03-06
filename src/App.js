@@ -24,13 +24,20 @@ const App = () => {
 
   useEffect(() => {
     if (searchTerm.trim() !== '') {
-            const fetchData = async () => {
+      const fetchData = async () => {
         try {
-          const response = await fetch(`http://www.omdbapi.com/?s=${searchTerm}&apikey=4d5f158f&plot=full&type=movie`);
+          const response = await fetch(`http://www.omdbapi.com/?s=${searchTerm}&apikey=4d5f158f&type=movie`);
           const data = await response.json();
-  
+
           if (data.Search) {
-            setSearchResults(data.Search);
+            const detailedResults = await Promise.all(
+              data.Search.map(async (movie) => {
+                const detailResponse = await fetch(`http://www.omdbapi.com/?i=${movie.imdbID}&apikey=4d5f158f&plot=full`);
+                const detailData = await detailResponse.json();
+                return detailData;
+              })
+            );
+            setSearchResults(detailedResults);
           } else {
             setSearchResults([]);
           }
@@ -38,7 +45,7 @@ const App = () => {
           console.error('Error fetching data:', error);
         }
       };
-  
+
       fetchData();
     } else {
       setSearchResults([]);

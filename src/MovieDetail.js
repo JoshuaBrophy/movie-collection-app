@@ -1,11 +1,18 @@
 import React, { useState } from 'react';
 import './App.css';
 
-const MovieDetail = ({ movie }) => {
+const MovieDetail = ({ movie, onAddToCollection, onRemoveFromCollection }) => {
   const [addToCollection, setAddToCollection] = useState(false);
 
   const handleCheckboxChange = () => {
     setAddToCollection(!addToCollection);
+
+    // Call the appropriate function based on the checkbox state
+    if (!addToCollection) {
+      onAddToCollection(movie);
+    } else {
+      onRemoveFromCollection(movie);
+    }
   };
 
   return (

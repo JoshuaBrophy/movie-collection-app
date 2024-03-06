@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import MovieCard from './MovieCard';
 import MovieDetail from './MovieDetail';
 import Collection from './Collection';
+import ReactDOM from 'react-dom/client';
 import './App.css';
 
 const App = () => {
@@ -34,7 +35,8 @@ const App = () => {
 
   const fetchData = async () => {
     try {
-      const response = await fetch(`http://www.omdbapi.com/?s=${searchTerm}&apikey=4d5f158f&type=movie`);
+      const apiKey = process.env.REACT_APP_OMDB_API_KEY;
+      const response = await fetch(`http://www.omdbapi.com/?s=${searchTerm}&apikey=${apiKey}&plot=full&type=movie`);
       const data = await response.json();
 
       if (data.Search) {

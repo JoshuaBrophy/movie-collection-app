@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import MovieCard from './MovieCard';
-import Sidebar from './Sidebar';
-import './App.css';
+import MovieCard from '../MovieCard';
+import Sidebar from '../Sidebar';
+import '../CSS/App.css';
 
 const Collection = ({ collection, onMovieClick }) => {
   const [filteredCollection, setFilteredCollection] = useState(collection);

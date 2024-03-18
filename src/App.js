@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import MovieCard from './MovieCard';
 import MovieDetail from './MovieDetail';
-import Collection from './Collection';
+import Collection from './Pages/Collection';
 import ReactDOM from 'react-dom/client';
-import './App.css';
+import './CSS/App.css';
 
 const App = () => {
   const [selectedMovie, setSelectedMovie] = useState(null);

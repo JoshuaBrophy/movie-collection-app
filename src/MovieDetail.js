@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './App.css';
+import './CSS/App.css';
 
 const MovieDetail = ({ movie, onAddToCollection, onRemoveFromCollection }) => {
   const [addToCollection, setAddToCollection] = useState(false);

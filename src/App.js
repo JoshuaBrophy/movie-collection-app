@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import MovieCard from './MovieCard';
 import MovieDetail from './MovieDetail';
 import Collection from './Pages/Collection';
-import ReactDOM from 'react-dom/client';
+//import ReactDOM from 'react-dom/client';
 import './CSS/App.css';
+
+
 
 const App = () => {
   const [selectedMovie, setSelectedMovie] = useState(null);
@@ -33,36 +35,36 @@ const App = () => {
     setCollection((prevCollection) => prevCollection.filter((item) => item.imdbID !== movie.imdbID));
   };
 
-  const fetchData = async () => {
-    try {
-      const apiKey = process.env.REACT_APP_OMDB_API_KEY;
-      const response = await fetch(`http://www.omdbapi.com/?s=${searchTerm}&apikey=${apiKey}&plot=full&type=movie`);
-      const data = await response.json();
-
-      if (data.Search) {
-        const detailedResults = await Promise.all(
-          data.Search.map(async (movie) => {
-            const detailResponse = await fetch(`http://www.omdbapi.com/?i=${movie.imdbID}&apikey=4d5f158f&plot=full`);
-            const detailData = await detailResponse.json();
-            return detailData;
-          })
-        );
-        setSearchResults(detailedResults);
-      } else {
-        setSearchResults([]);
-      }
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
-
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const apiKey = process.env.REACT_APP_OMDB_API_KEY;
+        const response = await fetch(`http://www.omdbapi.com/?s=${searchTerm}&apikey=${apiKey}&plot=full&type=movie`);
+        const data = await response.json();
+
+        if (data.Search) {
+          const detailedResults = await Promise.all(
+            data.Search.map(async (movie) => {
+              const detailResponse = await fetch(`http://www.omdbapi.com/?i=${movie.imdbID}&apikey=4d5f158f&plot=full`);
+              const detailData = await detailResponse.json();
+              return detailData;
+            })
+          );
+          setSearchResults(detailedResults);
+        } else {
+          setSearchResults([]);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
     if (searchTerm.trim() !== '') {
       fetchData();
     } else {
       setSearchResults([]);
     }
-  }, [searchTerm]);
+  }, [searchTerm]); // Removed fetchData from the dependency array
 
   return (
     <div>
@@ -120,4 +122,3 @@ const App = () => {
 };
 
 export default App;
-//im gonna stop while it works :D

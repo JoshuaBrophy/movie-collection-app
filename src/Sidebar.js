@@ -1,4 +1,5 @@
 import React from 'react';
+import './CSS/Sidebar.css'
 
 const Sidebar = ({ collection, onFilterChange, onSearch }) => {
   const handleGenreChange = (genre) => {
